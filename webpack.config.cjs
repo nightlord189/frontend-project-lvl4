@@ -9,6 +9,9 @@ module.exports = {
   mode,
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      '@assets': path.resolve(__dirname, './assets'),
+    },
   },
   output: {
     path: path.join(__dirname, 'dist', 'public'),
@@ -39,6 +42,12 @@ module.exports = {
           { loader: 'postcss-loader' },
           { loader: 'sass-loader' },
         ],
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+        },
       },
     ],
   },
