@@ -10,7 +10,12 @@ import NotFound from './NotFound.jsx';
 
 const App = () => (
   <Router>
-    <div>
+    <div className="d-flex flex-column h-100">
+      <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
+        <div className="container">
+          <Link to="/" className="navbar-brand">Hexlet Chat</Link>
+        </div>
+      </nav>
       <Switch>
         <Route exact path="/">
           <div><h1>Index</h1></div>
