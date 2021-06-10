@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Login from './Login.jsx';
 import NotFound from './NotFound.jsx';
+import Chat from './Chat.jsx';
 
 const App = () => (
   <Router>
@@ -18,7 +19,7 @@ const App = () => (
       </nav>
       <Switch>
         <Route exact path="/">
-          <div><h1>Index</h1></div>
+          <Chat />
         </Route>
         <Route path="/login">
           <Login />
