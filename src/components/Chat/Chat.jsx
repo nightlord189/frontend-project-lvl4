@@ -1,9 +1,11 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import routes from '../routes.js';
-import { update } from '../store/channels.js';
-import { updateMessages } from '../store/messages.js';
+import routes from '../../routes.js';
+import { update } from '../../store/channels.js';
+import { updateMessages } from '../../store/messages.js';
+import Channels from './Channels.jsx';
+import Messages from './Messages.jsx';
 
 const Chat = () => {
   const authToken = localStorage.getItem('userToken');
@@ -31,7 +33,10 @@ const Chat = () => {
   });
 
   return (
-    <div><h1>Chat</h1></div>
+    <div className="row h-100 bg-white">
+      <Channels />
+      <Messages />
+    </div>
   );
 };
 

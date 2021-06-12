@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import Login from './Login.jsx';
 import NotFound from './NotFound.jsx';
-import Chat from './Chat.jsx';
+import Chat from './Chat/Chat.jsx';
 
 const App = () => (
   <Router>
