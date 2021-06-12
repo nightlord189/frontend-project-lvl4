@@ -5,6 +5,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
 import imgLogin from '../../assets/images/login.png';
+import routes from '../routes.js';
 
 const validationSchema = yup.object({
   username: yup.string().required('Username is required'),
@@ -21,7 +22,7 @@ const Login = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const response = await axios.post('/api/v1/login', values);
+        const response = await axios.post(routes.authPath, values);
         localStorage.setItem('userToken', response.data.token);
         window.location.href = '/';
       } catch (error) {
