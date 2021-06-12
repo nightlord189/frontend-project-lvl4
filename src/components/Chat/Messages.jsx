@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -20,20 +21,14 @@ const Messages = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b>
-              #
-              {currentChannelName}
-            </b>
+            <b># {currentChannelName}</b>
           </p>
-          <span className="text-muted">1 сообщение</span>
+          <span className="text-muted">{messages.length} сообщение</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {messages.map((message) => (
             <div className="text-break mb-2">
-              <b>{message.username}</b>
-              :
-              {' '}
-              {message.body}
+              <b>{message.username}</b> : {' '} {message.body}
             </div>
           ))}
 
