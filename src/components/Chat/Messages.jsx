@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import MessageForm from './MessageForm.jsx';
 
@@ -15,6 +15,20 @@ const Messages = () => {
   const currentChannelName = channels.length > 0 ? channels.filter((x) => x.id === currentChannelId)[0].name : '';
   const messages = getChannelMessages(allMessages, currentChannelId);
 
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView(
+        {
+          behavior: 'smooth',
+          block: 'end',
+          inline: 'nearest',
+        },
+      );
+    }
+  });
+
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -24,7 +38,7 @@ const Messages = () => {
           </p>
           <span className="text-muted">сообщений: {messages.length}</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div id="messages-box" className="chat-messages overflow-auto px-5 " ref={scrollRef}>
           {messages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b> : {' '} {message.message}
