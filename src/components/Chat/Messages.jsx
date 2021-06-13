@@ -19,13 +19,9 @@ const Messages = () => {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollIntoView(
-        {
-          behavior: 'smooth',
-          block: 'end',
-          inline: 'nearest',
-        },
-      );
+      const scroll = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
+      scrollRef.current.scrollTo(0, scroll);
+      console.log('scroll');
     }
   });
 
