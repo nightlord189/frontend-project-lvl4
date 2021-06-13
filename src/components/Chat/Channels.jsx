@@ -1,9 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
+import { setCurrentChannel } from '../../store/channels.js';
 
 const Channels = () => {
   const { channels, currentChannelId } = useSelector((state) => state.channels);
+
+  const dispatch = useDispatch();
+
+  const handleSelectChannel = (id) => () => {
+    console.log(id);
+    dispatch(setCurrentChannel(id));
+  };
 
   return (
     <div className="col-2 px-0 pt-5 border-end bg-light">
@@ -23,7 +31,7 @@ const Channels = () => {
           });
           return (
             <li className="nav-item" key={channel.id}>
-              <button type="button" className={cl}>
+              <button type="button" className={cl} id={channel.id} onClick={handleSelectChannel(channel.id)}>
                 <span className="me-3">#</span>
                 {channel.name}
               </button>

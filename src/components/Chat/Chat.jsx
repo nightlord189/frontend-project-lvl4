@@ -8,17 +8,18 @@ import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
 
 const Chat = () => {
-  const authToken = localStorage.getItem('userToken');
-  if (!authToken) {
+  const user = localStorage.getItem('user');
+  if (!user) {
     window.location.href = '/login';
   }
+  const userParsed = JSON.parse(user);
 
   const dispatch = useDispatch();
 
   const getData = async () => {
     const response = await axios.get(routes.getDataPath,
       {
-        headers: { Authorization: `Bearer ${authToken}` },
+        headers: { Authorization: `Bearer ${userParsed.token}` },
       });
     console.log(response.data);
     dispatch(update({

@@ -11,7 +11,7 @@ import Chat from './Chat/Chat.jsx';
 
 const App = () => {
   const logout = () => {
-    localStorage.removeItem('userToken');
+    localStorage.removeItem('user');
     window.location.href = '/login';
   };
 
