@@ -1,5 +1,5 @@
 /* eslint-disable object-shorthand */
-import React, { useState, useContext, useRef } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import _ from 'lodash';
@@ -39,6 +39,12 @@ const MessageForm = () => {
   const handleChange = (e) => {
     setValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  });
 
   return (
     <div className="border-top mt-auto py-3 px-5">
