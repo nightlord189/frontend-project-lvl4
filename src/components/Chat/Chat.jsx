@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import routes from '../../routes.js';
-import { update } from '../../store/channels.js';
+import { updateChannels } from '../../store/channels.js';
 import { updateMessages } from '../../store/messages.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
@@ -22,7 +22,7 @@ const Chat = () => {
         headers: { Authorization: `Bearer ${userParsed.token}` },
       });
     console.log(response.data);
-    dispatch(update({
+    dispatch(updateChannels({
       channels: response.data.channels,
       currentChannelId: response.data.currentChannelId,
     }));

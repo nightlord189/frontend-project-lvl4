@@ -1,18 +1,16 @@
 /* eslint-disable object-curly-newline */
 /* eslint-disable object-shorthand */
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import _ from 'lodash';
 import { SocketContext } from '../../hooks.js';
-import { sendMessage } from '../../store/messages.js';
 
 const MessageForm = () => {
   const [value, setValue] = useState('');
   const [inputEnabled, setInputEnabled] = useState(true);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const socket = useContext(SocketContext);
-  const dispatch = useDispatch();
 
   const inputRef = useRef(null);
 
@@ -28,8 +26,6 @@ const MessageForm = () => {
     socket.emit('newMessage', msg, (response) => {
       if (response.status === 'ok') {
         setValue('');
-        msg.id = `temp${_.uniqueId()}`;
-        dispatch(sendMessage(msg));
       }
       setInputEnabled(true);
       inputRef.current.focus();
