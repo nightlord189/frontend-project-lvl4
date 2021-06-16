@@ -4,7 +4,7 @@ import React, {
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { SocketContext } from '../../../hooks';
-import { addChannel } from '../../../store/channels';
+import { addChannel, setCurrentChannel } from '../../../store/channels';
 
 const AddChannelModal = (props) => {
   const { onHide } = props;
@@ -42,6 +42,7 @@ const AddChannelModal = (props) => {
     socket.emit('newChannel', { name }, (response) => {
       if (response.status === 'ok') {
         dispatch(addChannel(response.data));
+        dispatch(setCurrentChannel(response.data.id));
         onHide();
       } else {
         setFormState({
