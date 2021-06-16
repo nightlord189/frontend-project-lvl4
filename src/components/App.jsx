@@ -6,10 +6,13 @@ import {
   Link,
 } from 'react-router-dom';
 import Login from './Login.jsx';
+import Signup from './Signup.jsx';
 import NotFound from './NotFound.jsx';
 import Chat from './chat/Chat.jsx';
 
 const App = () => {
+  const isAuthorized = localStorage.getItem('user') !== null;
+
   const logout = () => {
     localStorage.removeItem('user');
     window.location.href = '/login';
@@ -21,7 +24,7 @@ const App = () => {
         <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-white">
           <div className="container">
             <Link to="/" className="navbar-brand">Hexlet Chat</Link>
-            <button onClick={logout} type="button" className="btn btn-primary">Выйти</button>
+            {isAuthorized && <button onClick={logout} type="button" className="btn btn-primary">Выйти</button>}
           </div>
         </nav>
         <Switch>
@@ -30,6 +33,9 @@ const App = () => {
           </Route>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
           </Route>
           <Route path="*">
             <NotFound />
