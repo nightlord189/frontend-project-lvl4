@@ -23,7 +23,7 @@ const Login = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(routes.authPath, values);
-        localStorage.setItem('userToken', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data));
         window.location.href = '/';
       } catch (error) {
         console.log(error.message);

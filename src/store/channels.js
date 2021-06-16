@@ -8,13 +8,39 @@ export const channelsSlice = createSlice({
     currentChannelId: 0,
   },
   reducers: {
-    update: (state, action) => {
+    updateChannels: (state, action) => {
       state.channels = action.payload.channels;
       state.currentChannelId = action.payload.currentChannelId;
+    },
+    addChannel: (state, action) => {
+      if (state.channels.filter((x) => x.id === action.payload.id).length > 0) {
+        return;
+      }
+      state.channels.push(action.payload);
+    },
+    removeChannel: (state, action) => {
+      state.channels = state.channels.filter((x) => x.id !== action.payload);
+      if (state.currentChannelId === action.payload) {
+        state.currentChannelId = state.channels[0].id;
+      }
+    },
+    renameChannel: (state, action) => {
+      console.log(action.payload);
+      state.channels = state.channels.reduce((acc, channel) => {
+        if (channel.id === action.payload.id) {
+          return [...acc, action.payload];
+        }
+        return [...acc, channel];
+      }, []);
+    },
+    setCurrentChannel: (state, action) => {
+      state.currentChannelId = action.payload;
     },
   },
 });
 
-export const { update } = channelsSlice.actions;
+export const {
+  updateChannels, addChannel, removeChannel, renameChannel, setCurrentChannel,
+} = channelsSlice.actions;
 
 export default channelsSlice.reducer;
