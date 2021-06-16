@@ -2,14 +2,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
+import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setCurrentChannel } from '../../store/channels.js';
 import AddChannelModal from './modals/AddChannelModal.jsx';
+import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
 
 const Channels = () => {
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const [modalState, setModalState] = useState({
     state: 'closed',
     type: null,
+    payload: null,
   });
 
   const dispatch = useDispatch();
@@ -23,6 +26,15 @@ const Channels = () => {
     setModalState({
       state: 'opened',
       type: 'add',
+      payload: null,
+    });
+  };
+
+  const handleRemoveChannel = (id) => () => {
+    setModalState({
+      state: 'opened',
+      type: 'remove',
+      payload: id,
     });
   };
 
@@ -30,6 +42,7 @@ const Channels = () => {
     setModalState({
       state: 'closed',
       type: null,
+      payload: null,
     });
   };
 
@@ -40,6 +53,8 @@ const Channels = () => {
     switch (modalState.type) {
       case 'add':
         return <AddChannelModal onHide={handleHideModal} />;
+      case 'remove':
+        return <RemoveChannelModal onHide={handleHideModal} id={modalState.payload} />;
       default:
         return null;
     }
@@ -61,12 +76,26 @@ const Channels = () => {
           const cl = cn('w-100 px-4 rounded-0 text-start btn', {
             'btn-secondary': channel.id === currentChannelId,
           });
+          const dropdownCl = cn('flex-grow-0', {
+            'btn-light': channel.id !== currentChannelId,
+          });
           return (
             <li className="nav-item" key={channel.id}>
-              <button type="button" className={cl} id={channel.id} onClick={handleSelectChannel(channel.id)}>
-                <span className="me-3">#</span>
-                {} {channel.name}
-              </button>
+              <Dropdown className="d-flex" as={ButtonGroup}>
+                <button type="button" className={cl} id={channel.id} onClick={handleSelectChannel(channel.id)}>
+                  <span className="me-3">#</span>
+                  {} {channel.name}
+                </button>
+                {channel.removable ? (
+                  <>
+                    <Dropdown.Toggle split className={dropdownCl} id="dropdown-split-basic" />
+                    <Dropdown.Menu>
+                      <Dropdown.Item href="#" id={channel.id} onClick={handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
+                      <Dropdown.Item href="#">Переименовать</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </>
+                ) : null}
+              </Dropdown>
             </li>
           );
         })}
