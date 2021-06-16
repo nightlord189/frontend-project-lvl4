@@ -1,6 +1,6 @@
-/* eslint-disable object-curly-newline */
-/* eslint-disable object-shorthand */
-import React, { useState, useContext, useRef, useEffect } from 'react';
+import React, {
+  useState, useContext, useRef, useEffect,
+} from 'react';
 import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import { SocketContext } from '../../hooks.js';
@@ -18,7 +18,7 @@ const MessageForm = () => {
     console.log('submit');
     const { username } = JSON.parse(localStorage.getItem('user'));
     const msg = {
-      username: username,
+      username,
       message: value,
       channelId: currentChannelId,
     };
