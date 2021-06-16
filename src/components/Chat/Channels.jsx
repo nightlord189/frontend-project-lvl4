@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
@@ -33,7 +34,7 @@ const Channels = () => {
             <li className="nav-item" key={channel.id}>
               <button type="button" className={cl} id={channel.id} onClick={handleSelectChannel(channel.id)}>
                 <span className="me-3">#</span>
-                {channel.name}
+                {} {channel.name}
               </button>
             </li>
           );

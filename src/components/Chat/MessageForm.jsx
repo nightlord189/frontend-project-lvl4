@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 /* eslint-disable object-shorthand */
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
