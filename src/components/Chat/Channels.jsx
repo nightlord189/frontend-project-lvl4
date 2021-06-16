@@ -6,6 +6,7 @@ import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setCurrentChannel } from '../../store/channels.js';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
+import RenameChannelModal from './modals/RenameChannelModal.jsx';
 
 const Channels = () => {
   const { channels, currentChannelId } = useSelector((state) => state.channels);
@@ -38,6 +39,14 @@ const Channels = () => {
     });
   };
 
+  const handleRenameChannel = (channel) => () => {
+    setModalState({
+      state: 'opened',
+      type: 'rename',
+      payload: channel,
+    });
+  };
+
   const handleHideModal = () => {
     setModalState({
       state: 'closed',
@@ -55,6 +64,8 @@ const Channels = () => {
         return <AddChannelModal onHide={handleHideModal} />;
       case 'remove':
         return <RemoveChannelModal onHide={handleHideModal} id={modalState.payload} />;
+      case 'rename':
+        return <RenameChannelModal onHide={handleHideModal} channel={modalState.payload} />;
       default:
         return null;
     }
@@ -91,7 +102,7 @@ const Channels = () => {
                     <Dropdown.Toggle split className={dropdownCl} id="dropdown-split-basic" />
                     <Dropdown.Menu>
                       <Dropdown.Item href="#" id={channel.id} onClick={handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
-                      <Dropdown.Item href="#">Переименовать</Dropdown.Item>
+                      <Dropdown.Item href="#" id={channel.id} onClick={handleRenameChannel(channel)}>Переименовать</Dropdown.Item>
                     </Dropdown.Menu>
                   </>
                 ) : null}
