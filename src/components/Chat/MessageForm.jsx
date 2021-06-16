@@ -3,7 +3,6 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
-import _ from 'lodash';
 import { SocketContext } from '../../hooks.js';
 
 const MessageForm = () => {
