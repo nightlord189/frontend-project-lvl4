@@ -1,0 +1,41 @@
+{
+    "translation": {
+        "title": "Hexlet Chat",
+        "logout": "Выйти",
+        "signupTitle": "Регистрация",
+        "password": "Пароль",
+        "yourLogin": "Ваш ник",
+        "requiredField": "Обязательное поле",
+        "pageNotFound": "Страница не найдена",
+        "login": {
+            "login": "Войти",
+            "noAccount": "Нет аккаунта?",
+            "wrongCredentials": "Неверные имя пользователя или пароль"
+        },
+        "signup": {
+            "confirmPassword": "Подтвердите пароль",
+            "signup": "Зарегистрироваться",
+            "error": "Ошибка регистрации",
+            "passwordsShouldMatch": "Пароли должны совпадать",
+            "usernameLengthValidation": "От 3 до 20 символов",
+            "passwordLength": "Не менее 6 символов"
+        },
+        "messages": {
+            "messagesCount": "сообщений: ",
+            "enterMessage": "Введите сообщение..."
+        },
+        "channels": {
+            "channels": "Каналы",
+            "delete": "Удалить",
+            "rename": "Переименовать",
+            "addChannel": "Добавить канал",
+            "removeChannel": "Удалить канал",
+            "renameChannel": "Переименовать канал",
+            "cancel": "Отменить",
+            "send": "Отправить",
+            "errorUnique": "Должно быть уникальным",
+            "errorNetwork": "Сетевая ошибка",
+            "confirm": "Уверены?"
+        }
+    }
+}

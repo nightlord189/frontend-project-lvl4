@@ -3,12 +3,15 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { setCurrentChannel } from '../../store/channels.js';
 import AddChannelModal from './modals/AddChannelModal.jsx';
 import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
 import RenameChannelModal from './modals/RenameChannelModal.jsx';
 
 const Channels = () => {
+  const { t } = useTranslation();
+
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const [modalState, setModalState] = useState({
     state: 'closed',
@@ -74,7 +77,7 @@ const Channels = () => {
   return (
     <div className="col-2 px-0 pt-5 border-end bg-light">
       <div className="d-flex justify-content-between mb-2 px-4">
-        <span>Каналы</span>
+        <span>{t('channels.channels')}</span>
         <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
@@ -101,8 +104,8 @@ const Channels = () => {
                   <>
                     <Dropdown.Toggle split className={dropdownCl} id="dropdown-split-basic" />
                     <Dropdown.Menu>
-                      <Dropdown.Item href="#" id={channel.id} onClick={handleRemoveChannel(channel.id)}>Удалить</Dropdown.Item>
-                      <Dropdown.Item href="#" id={channel.id} onClick={handleRenameChannel(channel)}>Переименовать</Dropdown.Item>
+                      <Dropdown.Item href="#" id={channel.id} onClick={handleRemoveChannel(channel.id)}>{t('channels.delete')}</Dropdown.Item>
+                      <Dropdown.Item href="#" id={channel.id} onClick={handleRenameChannel(channel)}>{t('channels.rename')}</Dropdown.Item>
                     </Dropdown.Menu>
                   </>
                 ) : null}

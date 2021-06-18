@@ -3,10 +3,13 @@ import React, {
 } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../../hooks';
 import { renameChannel } from '../../../store/channels.js';
 
 const RenameChannelModal = (props) => {
+  const { t } = useTranslation();
+
   const { onHide, channel } = props;
   const [name, setName] = useState(channel.name);
   const [formState, setFormState] = useState({
@@ -30,7 +33,7 @@ const RenameChannelModal = (props) => {
     if (channels.filter((x) => x.name === name).length > 0) {
       setFormState({
         state: 'editing',
-        error: 'Должно быть уникальным',
+        error: t('channels.errorUnique'),
       });
       return;
     }
@@ -49,7 +52,7 @@ const RenameChannelModal = (props) => {
       } else {
         setFormState({
           state: 'editing',
-          error: 'network error',
+          error: t('channels.errorNetwork'),
         });
       }
       console.log(response.status); // ok
@@ -65,7 +68,7 @@ const RenameChannelModal = (props) => {
   return (
     <Modal show onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
+        <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -90,9 +93,9 @@ const RenameChannelModal = (props) => {
                 variant="secondary"
                 onClick={onHide}
               >
-                Отменить
+                {t('channels.cancel')}
               </Button>
-              <Button type="submit">Отправить</Button>
+              <Button type="submit">{t('channels.send')}</Button>
             </div>
           </Form.Group>
         </Form>

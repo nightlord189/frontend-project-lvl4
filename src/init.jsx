@@ -5,13 +5,31 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 
+import { initReactI18next } from 'react-i18next';
+import i18n from 'i18next';
 import App from './components/App.jsx';
 import store from './store/store.js';
 import { SocketContext } from './hooks.js';
 import { addMessage } from './store/messages.js';
 import { addChannel, removeChannel, renameChannel } from './store/channels.js';
 
+import translationRu from './locales/ru.json';
+
 export default () => {
+  i18n
+    .use(initReactI18next)
+    .init({
+      resources: {
+        ru: translationRu,
+      },
+      lng: 'ru',
+      debug: false,
+      fallbackLng: 'ru',
+      interpolation: {
+        escapeValue: false,
+      },
+    });
+
   const socket = io();
 
   socket.on('newMessage', (msg) => {

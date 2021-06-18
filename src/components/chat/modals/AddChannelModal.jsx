@@ -2,11 +2,14 @@ import React, {
   useState, useContext, useRef, useEffect,
 } from 'react';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { SocketContext } from '../../../hooks';
 import { addChannel, setCurrentChannel } from '../../../store/channels';
 
 const AddChannelModal = (props) => {
+  const { t } = useTranslation();
+
   const { onHide } = props;
   const [name, setName] = useState('');
   const [formState, setFormState] = useState({
@@ -30,7 +33,7 @@ const AddChannelModal = (props) => {
     if (channels.filter((x) => x.name === name).length > 0) {
       setFormState({
         state: 'editing',
-        error: 'Должно быть уникальным',
+        error: t('channels.errorUnique'),
       });
       return;
     }
@@ -47,7 +50,7 @@ const AddChannelModal = (props) => {
       } else {
         setFormState({
           state: 'editing',
-          error: 'network error',
+          error: t('channels.errorNetwork'),
         });
       }
       console.log(response.status); // ok
@@ -63,7 +66,7 @@ const AddChannelModal = (props) => {
   return (
     <Modal show onHide={onHide} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('channels.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
@@ -88,9 +91,9 @@ const AddChannelModal = (props) => {
                 variant="secondary"
                 onClick={onHide}
               >
-                Отменить
+                {t('channels.cancel')}
               </Button>
-              <Button type="submit">Отправить</Button>
+              <Button type="submit">{t('channels.send')}</Button>
             </div>
           </Form.Group>
         </Form>
