@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import MessageForm from './MessageForm.jsx';
 
 const getChannelMessages = (messages, channelId) => {
@@ -9,6 +10,8 @@ const getChannelMessages = (messages, channelId) => {
 };
 
 const Messages = () => {
+  const { t } = useTranslation();
+
   const { channels, currentChannelId } = useSelector((state) => state.channels);
   const allMessages = useSelector((state) => state.messages.messages);
 
@@ -32,7 +35,7 @@ const Messages = () => {
           <p className="m-0">
             <b># {currentChannelName}</b>
           </p>
-          <span className="text-muted">сообщений: {messages.length}</span>
+          <span className="text-muted">{t('messages.messagesCount')} {messages.length}</span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5 " ref={scrollRef}>
           {messages.map((message) => (

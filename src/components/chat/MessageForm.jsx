@@ -2,10 +2,13 @@ import React, {
   useState, useContext, useRef, useEffect,
 } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import Form from 'react-bootstrap/Form';
 import { SocketContext } from '../../hooks.js';
 
 const MessageForm = () => {
+  const { t } = useTranslation();
+
   const [value, setValue] = useState('');
   const [inputEnabled, setInputEnabled] = useState(true);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -56,7 +59,7 @@ const MessageForm = () => {
             required
             data-testid="new-message"
             className="border-0 form-control"
-            placeholder="Введите сообщение..."
+            placeholder={t('messages.enterMessage')}
             autoFocus
           />
           <div className="input-group-append">

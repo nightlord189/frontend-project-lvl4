@@ -3,16 +3,19 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
 
-const validationSchema = yup.object({
-  username: yup.string().required('Username is required'),
-  password: yup.string().required('Password is required'),
-});
-
 const Login = () => {
+  const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    username: yup.string().required(t('login.requiredField')),
+    password: yup.string().required(t('login.requiredField')),
+  });
+
   const [formError, setformError] = useState('');
   const formik = useFormik({
     initialValues: {
@@ -28,7 +31,7 @@ const Login = () => {
       } catch (error) {
         console.log(error.message);
         if (error.message.indexOf('401') !== -1) {
-          setformError('Неверные имя пользователя или пароль');
+          setformError(t('login.wrongCredentials'));
         } else {
           setformError(error.message);
         }
@@ -41,11 +44,11 @@ const Login = () => {
         <div className="col-xl-8 col-xxl-6">
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-              <div><img src={imgLogin} className="rounded-circle" alt="Войти" width="200" height="200" /></div>
+              <div><img src={imgLogin} className="rounded-circle" alt={t('login.login')} width="200" height="200" /></div>
               <form className="w-50" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">Войти</h1>
+                <h1 className="text-center mb-4">{t('login.login')}</h1>
                 <Form.Group className="form-floating mb-4">
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                  <Form.Label htmlFor="username">{t('yourLogin')}</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
@@ -60,7 +63,7 @@ const Login = () => {
                   />
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
-                  <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Label htmlFor="password">{t('password')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
@@ -79,14 +82,14 @@ const Login = () => {
                   </Form.Control.Feedback>
                   )}
                 </Form.Group>
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Войти</button>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('login.login')}</button>
               </form>
             </div>
             <div className="card-footer p-4">
               <div className="text-center">
-                <span>Нет аккаунта?</span>
+                <span>{t('login.noAccount')}</span>
                 {' '}
-                <a href="/signup">Регистрация</a>
+                <a href="/signup">{t('signupTitle')}</a>
               </div>
             </div>
           </div>

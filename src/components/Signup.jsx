@@ -4,19 +4,22 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
 
-const validationSchema = yup.object({
-  username: yup.string().required('Обязательное поле')
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов'),
-  password: yup.string().required('Обязательное поле')
-    .min(6, 'Не менее 6 символов'),
-  passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'Пароли должны совпадать'),
-});
-
 const Signup = () => {
+  const { t } = useTranslation();
+
+  const validationSchema = yup.object({
+    username: yup.string().required(t('requiredField'))
+      .min(3, t('signup.usernameLengthValidation'))
+      .max(20, t('signup.usernameLengthValidation')),
+    password: yup.string().required(t('requiredField'))
+      .min(6, t('signup.passwordLength')),
+    passwordConfirm: yup.string().oneOf([yup.ref('password'), null], t('signup.passwordsShouldMatch')),
+  });
+
   const [formState, setFormState] = useState({
     authError: null,
   });
@@ -36,7 +39,7 @@ const Signup = () => {
         console.log(error.message);
         if (error.message.indexOf('409') !== -1) {
           setFormState({
-            authError: 'Ошибка регистрации',
+            authError: t('signup.error'),
           });
         } else {
           setFormState({
@@ -58,11 +61,11 @@ const Signup = () => {
         <div className="col-xl-8 col-xxl-6">
           <div className="card shadow-sm">
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-              <div><img src={imgLogin} className="rounded-circle" alt="Войти" width="200" height="200" /></div>
+              <div><img src={imgLogin} className="rounded-circle" alt={t('signupTitle')} width="200" height="200" /></div>
               <Form noValidate className="w-50" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center mb-4">Регистрация</h1>
+                <h1 className="text-center mb-4">{t('signupTitle')}</h1>
                 <Form.Group className="form-floating mb-3">
-                  <Form.Label htmlFor="username">Ваш ник</Form.Label>
+                  <Form.Label htmlFor="username">{t('yourLogin')}</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
@@ -81,7 +84,7 @@ const Signup = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
-                  <Form.Label htmlFor="password">Пароль</Form.Label>
+                  <Form.Label htmlFor="password">{t('password')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
@@ -100,7 +103,7 @@ const Signup = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
-                  <Form.Label htmlFor="passwordConfirm">Подтвердите пароль</Form.Label>
+                  <Form.Label htmlFor="passwordConfirm">{t('signup.confirmPassword')}</Form.Label>
                   <Form.Control
                     type="password"
                     name="passwordConfirm"
@@ -125,7 +128,7 @@ const Signup = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 )}
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">Зарегистрироваться</button>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('signup.signup')}</button>
               </Form>
             </div>
           </div>
