@@ -65,13 +65,13 @@ const Signup = () => {
               <Form noValidate className="w-50" onSubmit={formik.handleSubmit}>
                 <h1 className="text-center mb-4">{t('signupTitle')}</h1>
                 <Form.Group className="form-floating mb-3">
-                  <Form.Label htmlFor="username">{t('yourLogin')}</Form.Label>
+                  <Form.Label htmlFor="username">{t('signup.username')}</Form.Label>
                   <Form.Control
                     type="text"
                     name="username"
                     autoComplete="username"
                     required
-                    placeholder="Ваш ник"
+                    placeholder={t('signup.username')}
                     id="username"
                     className="form-control"
                     isInvalid={formik.errors.username}
