@@ -4,7 +4,7 @@ import React, {
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { SocketContext } from '../../../hooks';
+import { SocketContext } from '../../../context';
 import { renameChannel } from '../../../store/channels.js';
 
 const RenameChannelModal = (props) => {

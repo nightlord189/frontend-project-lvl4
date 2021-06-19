@@ -4,7 +4,7 @@ import React, {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Form from 'react-bootstrap/Form';
-import { SocketContext } from '../../hooks.js';
+import { SocketContext } from '../../context.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
