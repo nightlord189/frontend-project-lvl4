@@ -78,7 +78,7 @@ const RenameChannelModal = (props) => {
               maxLength="20"
               className="mb-2"
               name="name"
-              data-testid="add-channel"
+              data-testid="rename-channel"
               required
               value={name}
               onChange={handleChangeName}
