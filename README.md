@@ -6,7 +6,7 @@
 [![CI](https://github.com/nightlord189/frontend-project-lvl4/workflows/Node%20CI/badge.svg)](https://github.com/nightlord189/frontend-project-lvl4/actions)
 
 ## Description
-Training project on [Hexlet](https://hexlet.io)
+Training project on [Hexlet](https://hexlet.io)  
 Chat (Slack)
 
 [Demo](https://stormy-scrubland-60698.herokuapp.com/)
