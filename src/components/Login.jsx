@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -7,11 +7,9 @@ import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
-import { RollbarContext } from '../context';
 
 const Login = () => {
   const { t } = useTranslation();
-  const rollbar = useContext(RollbarContext);
 
   const validationSchema = yup.object({
     username: yup.string().required(t('login.requiredField')),
