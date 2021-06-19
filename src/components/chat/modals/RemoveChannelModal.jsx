@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { SocketContext } from '../../../hooks';
+import { SocketContext } from '../../../context';
 import { removeChannel } from '../../../store/channels';
 
 const RemoveChannelModal = (props) => {
