@@ -23,7 +23,8 @@
         },
         "messages": {
             "messagesCount": "сообщений: ",
-            "enterMessage": "Введите сообщение..."
+            "enterMessage": "Введите сообщение...",
+            "send": "Отправить"
         },
         "channels": {
             "channels": "Каналы",
