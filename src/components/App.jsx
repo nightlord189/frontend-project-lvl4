@@ -34,9 +34,9 @@ const App = () => {
           <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
             <Chat />
           </PrivateRoute>
-          <Route path="/login">
+          <PrivateRoute path="/login" flag={!isAuthorized} redirectPath="/">
             <Login />
-          </Route>
+          </PrivateRoute>
           <Route path="/signup">
             <Signup />
           </Route>
