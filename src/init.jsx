@@ -17,7 +17,7 @@ import translationRu from './locales/ru.json';
 
 const ROLLBAR_TOKEN = 'abe8f1de81b94a739d51c14cdcf0532d';
 
-export default async (socketClient) => {
+const init = async (socketClient) => {
   await i18n
     .use(initReactI18next)
     .init({
@@ -66,3 +66,5 @@ export default async (socketClient) => {
     </RollbarContext.Provider>
   );
 };
+
+export default init;
