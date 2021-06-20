@@ -1,9 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Link,
-  useHistory,
-} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../context';
 
 const Navbar = () => {
