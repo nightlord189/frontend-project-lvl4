@@ -32,8 +32,8 @@ const Login = () => {
       try {
         const response = await axios.post(routes.authPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
-        history.push('/');
-        console.log(`login success: ${response}`);
+        console.log(`login success: ${JSON.stringify(response.data)}`);
+        history.replace('/');
       } catch (error) {
         console.log(`login failure: ${error}`);
         if (error.message.indexOf('401') !== -1) {
