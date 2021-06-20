@@ -1,15 +1,21 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
+import {
+  useHistory,
+} from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
+import { AuthContext } from '../context';
 
 const Login = () => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const [, setAuth] = useContext(AuthContext);
 
   const validationSchema = yup.object({
     username: yup.string().required(t('login.requiredField')),
@@ -28,8 +34,9 @@ const Login = () => {
       try {
         const response = await axios.post(routes.authPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
-        console.log(`login success: ${JSON.stringify(response.data)}`);
-        window.location.href = '/login';
+        setAuth(JSON.stringify(response.data));
+        console.log(`login success: ${JSON.stringify(response.data)}, storage: ${localStorage.getItem('user')}`);
+        history.push('/');
       } catch (error) {
         console.log(`login failure: ${error}`);
         if (error.message.indexOf('401') !== -1) {

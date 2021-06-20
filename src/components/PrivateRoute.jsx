@@ -6,21 +6,24 @@ import {
 
 const PrivateRoute = ({
   children, path, exact, flag, redirectPath,
-}) => (
-  <Route
-    path={path}
-    exact={exact}
-    render={({ location }) => (flag ? (
-      children
-    ) : (
-      <Redirect
-        to={{
-          pathname: redirectPath,
-          state: { from: location },
-        }}
-      />
-    ))}
-  />
-);
+}) => {
+  console.log(`PrivateRoute, path: ${path}, flag: ${flag}, redirectPath: ${redirectPath}`);
+  return (
+    <Route
+      path={path}
+      exact={exact}
+      render={({ location }) => (flag ? (
+        children
+      ) : (
+        <Redirect
+          to={{
+            pathname: redirectPath,
+            state: { from: location },
+          }}
+        />
+      ))}
+    />
+  );
+};
 
 export default PrivateRoute;

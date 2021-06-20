@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,30 +10,35 @@ import NotFound from './NotFound.jsx';
 import Chat from './chat/Chat.jsx';
 import PrivateRoute from './PrivateRoute.jsx';
 import Navbar from './Navbar.jsx';
+import { AuthContext } from '../context';
 
 const App = () => {
-  const isAuthorized = localStorage.getItem('user') !== null;
+  const [auth, setAuth] = useState(localStorage.getItem('user'));
+  const isAuthorized = auth !== null;
+  console.log(`rendering app, isAuthorized: ${isAuthorized}`);
 
   return (
-    <Router>
-      <div className="d-flex flex-column h-100">
-        <Navbar />
-        <Switch>
-          <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
-            <Chat />
-          </PrivateRoute>
-          <PrivateRoute path="/login" flag={!isAuthorized} redirectPath="/">
-            <Login />
-          </PrivateRoute>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <AuthContext.Provider value={[auth, setAuth]}>
+      <Router>
+        <div className="d-flex flex-column h-100">
+          <Navbar />
+          <Switch>
+            <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
+              <Chat />
+            </PrivateRoute>
+            <PrivateRoute path="/login" flag={!isAuthorized} redirectPath="/">
+              <Login />
+            </PrivateRoute>
+            <Route path="/signup">
+              <Signup />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </AuthContext.Provider>
   );
 };
 
