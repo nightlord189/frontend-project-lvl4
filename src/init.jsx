@@ -1,6 +1,5 @@
 // @ts-check
 
-import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
@@ -18,8 +17,8 @@ import translationRu from './locales/ru.json';
 
 const ROLLBAR_TOKEN = 'abe8f1de81b94a739d51c14cdcf0532d';
 
-export default () => {
-  i18n
+export default async () => {
+  await i18n
     .use(initReactI18next)
     .init({
       resources: {
@@ -57,14 +56,13 @@ export default () => {
     store.dispatch(renameChannel(channel));
   });
 
-  ReactDOM.render(
+  return (
     <RollbarContext.Provider value={rollbarInstance}>
       <SocketContext.Provider value={socket}>
         <Provider store={store}>
           <App />
         </Provider>
       </SocketContext.Provider>
-    </RollbarContext.Provider>,
-    document.getElementById('chat'),
+    </RollbarContext.Provider>
   );
 };
