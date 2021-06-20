@@ -17,7 +17,7 @@ import translationRu from './locales/ru.json';
 
 const ROLLBAR_TOKEN = 'abe8f1de81b94a739d51c14cdcf0532d';
 
-export default async () => {
+export default async (socketClient) => {
   await i18n
     .use(initReactI18next)
     .init({
@@ -31,8 +31,8 @@ export default async () => {
         escapeValue: false,
       },
     });
-
-  const socket = io();
+  console.log(socketClient);
+  const socket = socketClient !== undefined ? socketClient : io();
 
   const rollbarInstance = new Rollbar({
     accessToken: ROLLBAR_TOKEN,
