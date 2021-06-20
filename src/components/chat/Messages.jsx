@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { animateScroll } from 'react-scroll';
 import MessageForm from './MessageForm.jsx';
 
 const getChannelMessages = (messages, channelId) => {
@@ -18,16 +19,12 @@ const Messages = () => {
   const currentChannelName = channels.length > 0 ? channels.filter((x) => x.id === currentChannelId)[0].name : '';
   const messages = getChannelMessages(allMessages, currentChannelId);
 
-  const scrollRef = useRef(null);
-
   useEffect(() => {
-    console.log(`scrollRef: ${scrollRef}`);
-    console.log(scrollRef);
-    if (scrollRef.current) {
-      const scroll = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
-      scrollRef.current.scrollTo(0, scroll);
-      console.log('scroll');
-    }
+    animateScroll.scrollToBottom({
+      duration: 0,
+      delay: 0,
+      containerId: 'messages-box',
+    });
   });
 
   return (
@@ -39,7 +36,7 @@ const Messages = () => {
           </p>
           <span className="text-muted">{t('messages.messagesCount')} {messages.length}</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5" ref={scrollRef}>
+        <div id="messages-box" className="chat-messages overflow-auto px-5">
           {messages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b> : {' '} {message.message}
