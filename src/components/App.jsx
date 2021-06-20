@@ -26,7 +26,7 @@ const App = () => {
             <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
               <Chat />
             </PrivateRoute>
-            <Route path="/login" flag={!isAuthorized} redirectPath="/">
+            <Route path="/login">
               <Login />
             </Route>
             <Route path="/signup">
