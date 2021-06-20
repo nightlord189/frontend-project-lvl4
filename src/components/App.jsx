@@ -15,7 +15,7 @@ import { AuthContext } from '../context';
 const App = () => {
   const [auth, setAuth] = useState(localStorage.getItem('user'));
   const isAuthorized = auth !== null;
-  console.log(`rendering app, isAuthorized: ${isAuthorized}`);
+  console.log(`rendering app, auth: ${auth}, isAuthorized: ${isAuthorized}`);
 
   return (
     <AuthContext.Provider value={[auth, setAuth]}>
@@ -26,9 +26,9 @@ const App = () => {
             <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
               <Chat />
             </PrivateRoute>
-            <PrivateRoute path="/login" flag={!isAuthorized} redirectPath="/">
+            <Route path="/login" flag={!isAuthorized} redirectPath="/">
               <Login />
-            </PrivateRoute>
+            </Route>
             <Route path="/signup">
               <Signup />
             </Route>
