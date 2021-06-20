@@ -28,12 +28,14 @@ const Login = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      console.log(`login submit: ${JSON.stringify(values)}`);
       try {
         const response = await axios.post(routes.authPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
         history.push('/');
+        console.log(`login success: ${response}`);
       } catch (error) {
-        console.log(error.message);
+        console.log(`login failure: ${error}`);
         if (error.message.indexOf('401') !== -1) {
           setformError(t('login.wrongCredentials'));
         } else {
