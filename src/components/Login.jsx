@@ -5,15 +5,11 @@ import * as yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Form } from 'react-bootstrap';
-import {
-  useHistory,
-} from 'react-router-dom';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
 
 const Login = () => {
   const { t } = useTranslation();
-  const history = useHistory();
 
   const validationSchema = yup.object({
     username: yup.string().required(t('login.requiredField')),
@@ -33,7 +29,7 @@ const Login = () => {
         const response = await axios.post(routes.authPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
         console.log(`login success: ${JSON.stringify(response.data)}`);
-        history.replace('/');
+        window.location.href = '/login';
       } catch (error) {
         console.log(`login failure: ${error}`);
         if (error.message.indexOf('401') !== -1) {
