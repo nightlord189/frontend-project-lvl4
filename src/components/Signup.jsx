@@ -128,7 +128,7 @@ const Signup = () => {
                   </Form.Control.Feedback>
                 </Form.Group>
                 )}
-                <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('signup.signup')}</button>
+                <button type="submit" className="w-100 mb-3 btn btn-outline-primary" disabled={formik.isSubmitting}>{t('signup.signup')}</button>
               </Form>
             </div>
           </div>
