@@ -38,7 +38,7 @@ const Messages = () => {
           </p>
           <span className="text-muted">{t('messages.messagesCount')} {messages.length}</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 " ref={scrollRef}>
+        <div id="messages-box" className="chat-messages overflow-auto px-5" ref={scrollRef}>
           {messages.map((message) => (
             <div className="text-break mb-2" key={message.id}>
               <b>{message.username}</b> : {' '} {message.message}
