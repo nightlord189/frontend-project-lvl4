@@ -10,6 +10,7 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import NotFound from './NotFound.jsx';
 import Chat from './chat/Chat.jsx';
+import PrivateRoute from './PrivateRoute.jsx';
 
 const App = () => {
   const isAuthorized = localStorage.getItem('user') !== null;
@@ -30,9 +31,9 @@ const App = () => {
           </div>
         </nav>
         <Switch>
-          <Route exact path="/">
+          <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
             <Chat />
-          </Route>
+          </PrivateRoute>
           <Route path="/login">
             <Login />
           </Route>
