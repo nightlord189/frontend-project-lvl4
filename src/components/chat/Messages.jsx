@@ -22,6 +22,7 @@ const Messages = () => {
 
   useEffect(() => {
     console.log(`scrollRef: ${scrollRef}`);
+    console.log(scrollRef);
     if (scrollRef.current) {
       const scroll = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
       scrollRef.current.scrollTo(0, scroll);
