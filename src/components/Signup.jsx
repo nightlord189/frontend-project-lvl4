@@ -1,15 +1,19 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';
+import { AuthContext } from '../context';
 
 const Signup = () => {
   const { t } = useTranslation();
+  const history = useHistory();
+  const [, setAuth] = useContext(AuthContext);
 
   const validationSchema = yup.object({
     username: yup.string().required(t('requiredField'))
@@ -31,12 +35,15 @@ const Signup = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      console.log(`signup submit: ${JSON.stringify(values)}`);
       try {
         const response = await axios.post(routes.signupPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
-        window.location.href = '/';
+        setAuth(JSON.stringify(response.data));
+        console.log(`signup success: ${JSON.stringify(response.data)}, storage: ${localStorage.getItem('user')}`);
+        history.push('/');
       } catch (error) {
-        console.log(error.message);
+        console.log(`signup failure: ${error}`);
         if (error.message.indexOf('409') !== -1) {
           setFormState({
             authError: t('signup.error'),

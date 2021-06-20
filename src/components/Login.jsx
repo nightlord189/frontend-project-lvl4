@@ -4,9 +4,7 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
-import {
-  useHistory,
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Form } from 'react-bootstrap';
 import imgLogin from '../../assets/images/login.png';
 import routes from '../routes.js';

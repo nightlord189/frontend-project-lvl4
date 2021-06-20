@@ -9,9 +9,6 @@ import Messages from './Messages.jsx';
 
 const Chat = () => {
   const user = localStorage.getItem('user');
-  if (!user) {
-    window.location.href = '/login';
-  }
   const userParsed = JSON.parse(user);
 
   const dispatch = useDispatch();
