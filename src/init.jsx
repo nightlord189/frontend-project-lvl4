@@ -31,7 +31,7 @@ const init = async (socketClient) => {
         escapeValue: false,
       },
     });
-  console.log(socketClient);
+  //console.log(socketClient);
   const socket = socketClient !== undefined ? socketClient : io();
 
   const rollbarInstance = new Rollbar({
