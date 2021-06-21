@@ -37,7 +37,7 @@ const RenameChannelModal = (props) => {
       });
       return;
     }
-    console.log(`submit add channel ${name}`);
+    // console.log(`submit add channel ${name}`);
     setFormState({
       state: 'sending',
       error: '',
@@ -55,7 +55,7 @@ const RenameChannelModal = (props) => {
           error: t('channels.errorNetwork'),
         });
       }
-      console.log(response.status); // ok
+      // console.log(response.status); // ok
     });
   };
 

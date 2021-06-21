@@ -35,15 +35,15 @@ const Signup = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      console.log(`signup submit: ${JSON.stringify(values)}`);
+      // console.log(`signup submit: ${JSON.stringify(values)}`);
       try {
         const response = await axios.post(routes.signupPath, values);
         localStorage.setItem('user', JSON.stringify(response.data));
         setAuth(JSON.stringify(response.data));
-        console.log(`signup success: ${JSON.stringify(response.data)}, storage: ${localStorage.getItem('user')}`);
+        // console.log(`signup success: ${JSON.stringify(response.data)}`);
         history.push('/');
       } catch (error) {
-        console.log(`signup failure: ${error}`);
+        // console.log(`signup failure: ${error}`);
         if (error.message.indexOf('409') !== -1) {
           setFormState({
             authError: t('signup.error'),

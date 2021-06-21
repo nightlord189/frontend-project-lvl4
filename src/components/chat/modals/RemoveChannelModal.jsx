@@ -19,7 +19,7 @@ const RemoveChannelModal = (props) => {
     if (formState.state !== 'editing') {
       return;
     }
-    console.log(`submit remove channel ${id}`);
+    // console.log(`submit remove channel ${id}`);
     setFormState({
       state: 'sending',
     });

@@ -18,7 +18,7 @@ const Chat = () => {
       {
         headers: { Authorization: `Bearer ${userParsed.token}` },
       });
-    console.log(response.data);
+    // console.log(response.data);
     dispatch(updateChannels({
       channels: response.data.channels,
       currentChannelId: response.data.currentChannelId,

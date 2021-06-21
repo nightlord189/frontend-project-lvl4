@@ -25,7 +25,7 @@ export const channelsSlice = createSlice({
       }
     },
     renameChannel: (state, action) => {
-      console.log(action.payload);
+      // console.log(action.payload);
       state.channels = state.channels.reduce((acc, channel) => {
         if (channel.id === action.payload.id) {
           return [...acc, action.payload];

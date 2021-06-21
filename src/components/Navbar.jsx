@@ -12,7 +12,7 @@ const Navbar = () => {
   const logout = () => {
     localStorage.removeItem('user');
     setAuth(null);
-    console.log('logout');
+    // console.log('logout');
     history.replace('/login');
   };
 
