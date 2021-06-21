@@ -5,11 +5,11 @@
         "signupTitle": "Регистрация",
         "password": "Пароль",
         "yourLogin": "Ваш ник",
-        "requiredField": "Обязательное поле",
         "pageNotFound": "Страница не найдена",
         "login": {
             "login": "Войти",
             "noAccount": "Нет аккаунта?",
+            "requiredField": "Обязательное поле",
             "wrongCredentials": "Неверные имя пользователя или пароль"
         },
         "signup": {
@@ -19,7 +19,8 @@
             "error": "Ошибка регистрации",
             "passwordsShouldMatch": "Пароли должны совпадать",
             "usernameLengthValidation": "От 3 до 20 символов",
-            "passwordLength": "Не менее 6 символов"
+            "passwordLength": "Не менее 6 символов",
+            "requiredField": "Обязательное поле"
         },
         "messages": {
             "messagesCount": "сообщений: ",

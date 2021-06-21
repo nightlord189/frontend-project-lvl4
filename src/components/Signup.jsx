@@ -15,13 +15,15 @@ const Signup = () => {
   const history = useHistory();
   const [, setAuth] = useContext(AuthContext);
 
+  const getErrorText = (key) => t(`signup.${key}`);
+
   const validationSchema = yup.object({
-    username: yup.string().required(t('requiredField'))
-      .min(3, t('signup.usernameLengthValidation'))
-      .max(20, t('signup.usernameLengthValidation')),
-    password: yup.string().required(t('requiredField'))
-      .min(6, t('signup.passwordLength')),
-    passwordConfirm: yup.string().oneOf([yup.ref('password'), null], t('signup.passwordsShouldMatch')),
+    username: yup.string().required('requiredField')
+      .min(3, 'usernameLengthValidation')
+      .max(20, 'usernameLengthValidation'),
+    password: yup.string().required('requiredField')
+      .min(6, 'passwordLength'),
+    passwordConfirm: yup.string().oneOf([yup.ref('password'), null], 'passwordsShouldMatch'),
   });
 
   const [formState, setFormState] = useState({
@@ -87,7 +89,7 @@ const Signup = () => {
                     value={formik.values.username}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {formik.errors.username}
+                    {getErrorText(formik.errors.username)}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="form-floating mb-3">
@@ -106,7 +108,7 @@ const Signup = () => {
                     value={formik.values.password}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {formik.errors.password}
+                    {getErrorText(formik.errors.password)}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group className="form-floating mb-4">
@@ -125,7 +127,7 @@ const Signup = () => {
                     value={formik.values.passwordConfirm}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {formik.errors.passwordConfirm}
+                    {getErrorText(formik.errors.passwordConfirm)}
                   </Form.Control.Feedback>
                 </Form.Group>
                 {authError && (

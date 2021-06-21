@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useContext } from 'react';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { Link, useHistory } from 'react-router-dom';
@@ -15,18 +14,12 @@ const Login = () => {
   const history = useHistory();
   const [, setAuth] = useContext(AuthContext);
 
-  const validationSchema = yup.object({
-    username: yup.string().required(t('login.requiredField')),
-    password: yup.string().required(t('login.requiredField')),
-  });
-
   const [formError, setformError] = useState('');
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
-    validationSchema,
     onSubmit: async (values) => {
       // console.log(`login submit: ${JSON.stringify(values)}`);
       try {
