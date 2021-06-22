@@ -21,6 +21,8 @@ const AddChannelModal = (props) => {
   const inputRef = useRef(null);
   const { channels } = useSelector((state) => state.channels);
 
+  const getErrorText = (key) => t(`channels.${key}`);
+
   const handleChangeName = (e) => {
     setName(e.target.value);
   };
@@ -33,7 +35,7 @@ const AddChannelModal = (props) => {
     if (channels.filter((x) => x.name === name).length > 0) {
       setFormState({
         state: 'editing',
-        error: t('channels.errorUnique'),
+        error: 'errorUnique',
       });
       return;
     }
@@ -50,7 +52,7 @@ const AddChannelModal = (props) => {
       } else {
         setFormState({
           state: 'editing',
-          error: t('channels.errorNetwork'),
+          error: 'errorNetwork',
         });
       }
       // console.log(response.status); // ok
@@ -83,7 +85,7 @@ const AddChannelModal = (props) => {
               ref={inputRef}
               isInvalid={formState.error !== ''}
             />
-            <Form.Control.Feedback type="invalid">{formState.error}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{ getErrorText(formState.error) }</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
                 type="button"

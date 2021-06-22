@@ -23,7 +23,7 @@ const App = () => {
         <div className="d-flex flex-column h-100">
           <Navbar />
           <Switch>
-            <PrivateRoute exact path="/" flag={isAuthorized} redirectPath="/login">
+            <PrivateRoute exact path="/" redirect={isAuthorized} redirectPath="/login">
               <Chat />
             </PrivateRoute>
             <Route path="/login">

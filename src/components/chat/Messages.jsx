@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
@@ -5,19 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { animateScroll } from 'react-scroll';
 import MessageForm from './MessageForm.jsx';
 
-const getChannelMessages = (messages, channelId) => {
-  const result = messages.filter((x) => x.channelId === channelId);
-  return result;
-};
-
 const Messages = () => {
   const { t } = useTranslation();
 
-  const { channels, currentChannelId } = useSelector((state) => state.channels);
-  const allMessages = useSelector((state) => state.messages.messages);
-
-  const currentChannelName = channels.length > 0 ? channels.filter((x) => x.id === currentChannelId)[0].name : '';
-  const messages = getChannelMessages(allMessages, currentChannelId);
+  const currentChannel = useSelector((state) => state.channels.channels.filter((x) => x.id === state.channels.currentChannelId)[0]);
+  const messages = useSelector((state) => state.messages.messages.filter((x) => x.channelId === state.channels.currentChannelId));
 
   useEffect(() => {
     animateScroll.scrollToBottom({
@@ -32,7 +25,7 @@ const Messages = () => {
       <div className="d-flex flex-column h-100">
         <div className="bg-light mb-4 p-3 shadow-sm small">
           <p className="m-0">
-            <b># {currentChannelName}</b>
+            <b># {currentChannel && currentChannel.name}</b>
           </p>
           <span className="text-muted">{t('messages.messagesCount')} {messages.length}</span>
         </div>

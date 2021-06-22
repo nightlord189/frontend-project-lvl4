@@ -29,8 +29,8 @@ const Login = () => {
         // console.log(`login success: ${JSON.stringify(response.data)}`);
         history.push('/');
       } catch (error) {
-        // console.log(`login failure: ${error}`);
-        if (error.message.indexOf('401') !== -1) {
+        // console.log(`login failure: ${error}, status: ${error.response.status}`);
+        if (error.response.status === 401) {
           setformError(t('login.wrongCredentials'));
         } else {
           setformError(error.message);

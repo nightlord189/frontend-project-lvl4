@@ -5,12 +5,12 @@ import {
 } from 'react-router-dom';
 
 const PrivateRoute = ({
-  children, path, exact, flag, redirectPath,
+  children, path, exact, redirect, redirectPath,
 }) => (
   <Route
     path={path}
     exact={exact}
-    render={({ location }) => (flag ? (
+    render={({ location }) => (redirect ? (
       children
     ) : (
       <Redirect
