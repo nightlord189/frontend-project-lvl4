@@ -82,16 +82,16 @@ const Channels = () => {
           <span className="visually-hidden">+</span>
         </button>
       </div>
-      <ul className="nav flex-column nav-pills nav-fill">
+      <ul className="nav flex-column nav-pills nav-fill px-2">
         {channels.map((channel) => {
-          const cl = cn('w-100 px-4 rounded-0 text-start btn', {
+          const cl = cn('w-100 rounded-0 text-left text-truncate btn', {
             'btn-secondary': channel.id === currentChannelId,
           });
           const dropdownCl = cn('flex-grow-0', {
             'btn-light': channel.id !== currentChannelId,
           });
           return (
-            <li className="nav-item" key={channel.id}>
+            <li className="nav-item w-100" key={channel.id}>
               <Dropdown className="d-flex" as={ButtonGroup}>
                 <button type="button" className={cl} id={channel.id} onClick={handleSelectChannel(channel.id)}>
                   <span className="me-3">#</span>
