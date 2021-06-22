@@ -1,4 +1,3 @@
-/* eslint-disable functional/no-let */
 import axios from 'axios';
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
@@ -18,8 +17,6 @@ const Chat = () => {
 
   const dispatch = useDispatch();
 
-  let isDataLoaded = false;
-
   const getData = async () => {
     // console.log('getData in chat');
     try {
@@ -28,7 +25,6 @@ const Chat = () => {
           headers: { Authorization: `Bearer ${userParsed.token}` },
         });
       // console.log(response.data);
-      isDataLoaded = true;
       dispatch(updateChannels({
         channels: response.data.channels,
         currentChannelId: response.data.currentChannelId,
@@ -44,7 +40,7 @@ const Chat = () => {
 
   useEffect(() => {
     getData();
-  }, [isDataLoaded]);
+  }, [dispatch]);
 
   return (
     <div className="row h-100 bg-white">
