@@ -17,7 +17,7 @@ const Modal = () => {
     case 'rename':
       return <RenameChannelModal channel={payload} />;
     default:
-      return null;
+      throw new Error(`unknown modal type: ${type}`);
   }
 };
 
