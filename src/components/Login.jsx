@@ -14,6 +14,8 @@ const Login = () => {
   const history = useHistory();
   const [, setAuth] = useContext(AuthContext);
 
+  const getErrorText = (key) => t(`login.${key}`);
+
   const [formError, setformError] = useState('');
   const formik = useFormik({
     initialValues: {
@@ -31,9 +33,10 @@ const Login = () => {
       } catch (error) {
         // console.log(`login failure: ${error}, status: ${error.response.status}`);
         if (error.response.status === 401) {
-          setformError(t('login.wrongCredentials'));
+          setformError('badCredentials');
+          console.log(getErrorText('badCredentials'));
         } else {
-          setformError(error.message);
+          setformError('error');
         }
       }
     },
@@ -76,9 +79,9 @@ const Login = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                   />
-                  {formError ?? (
-                  <Form.Control.Feedback type="invalid" tooltip>
-                    {formError}
+                  {formError && (
+                  <Form.Control.Feedback type="invalid">
+                    {getErrorText(formError)}
                   </Form.Control.Feedback>
                   )}
                 </Form.Group>

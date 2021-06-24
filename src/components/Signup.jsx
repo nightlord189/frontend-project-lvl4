@@ -15,7 +15,7 @@ const Signup = () => {
   const history = useHistory();
   const [, setAuth] = useContext(AuthContext);
 
-  const getErrorText = (key) => t(`signup.${key}`);
+  const getErrorText = (key) => (key ? t(`signup.${key}`) : '');
 
   const validationSchema = yup.object({
     username: yup.string().required('requiredField')
@@ -60,9 +60,6 @@ const Signup = () => {
   });
 
   const { authError } = formState;
-  const feedbackStyle = {
-    display: 'block',
-  };
 
   return (
     <div className="container-fluid flex-grow-1">
@@ -83,7 +80,7 @@ const Signup = () => {
                     placeholder={t('signup.username')}
                     id="username"
                     className="form-control"
-                    isInvalid={formik.errors.username}
+                    isInvalid={authError || formik.errors.username}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.username}
@@ -102,7 +99,7 @@ const Signup = () => {
                     placeholder="Пароль"
                     id="password"
                     className="form-control"
-                    isInvalid={formik.errors.password}
+                    isInvalid={authError || formik.errors.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
@@ -121,22 +118,15 @@ const Signup = () => {
                     placeholder="Пароль"
                     id="passwordConfirm"
                     className="form-control"
-                    isInvalid={formik.errors.passwordConfirm}
+                    isInvalid={authError || formik.errors.passwordConfirm}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     value={formik.values.passwordConfirm}
                   />
                   <Form.Control.Feedback type="invalid">
-                    {getErrorText(formik.errors.passwordConfirm)}
+                    {authError || getErrorText(formik.errors.passwordConfirm)}
                   </Form.Control.Feedback>
                 </Form.Group>
-                {authError && (
-                <Form.Group className="form-floating mb-4">
-                  <Form.Control.Feedback type="invalid" style={feedbackStyle}>
-                    {authError}
-                  </Form.Control.Feedback>
-                </Form.Group>
-                )}
                 <button type="submit" className="w-100 mb-3 btn btn-outline-primary" disabled={formik.isSubmitting}>{t('signup.signup')}</button>
               </Form>
             </div>
