@@ -3,7 +3,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
-import Rollbar from 'rollbar';
 
 import { initReactI18next } from 'react-i18next';
 import i18n from 'i18next';
@@ -15,9 +14,7 @@ import { addChannel, removeChannel, renameChannel } from './store/channels.js';
 
 import translationRu from './locales/ru.json';
 
-const ROLLBAR_TOKEN = 'abe8f1de81b94a739d51c14cdcf0532d';
-
-const init = async (socketClient) => {
+const init = async (socketClient, rollbarInstance) => {
   await i18n
     .use(initReactI18next)
     .init({
@@ -33,15 +30,6 @@ const init = async (socketClient) => {
     });
   // console.log(socketClient);
   const socket = socketClient !== undefined ? socketClient : io();
-
-  const rollbarInstance = new Rollbar({
-    accessToken: ROLLBAR_TOKEN,
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    payload: {
-      environment: 'production',
-    },
-  });
 
   socket.on('newMessage', (msg) => {
     store.dispatch(addMessage(msg));
