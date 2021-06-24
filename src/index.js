@@ -1,5 +1,4 @@
 // @ts-check
-
 import 'core-js/stable/index.js';
 import 'regenerator-runtime/runtime.js';
 import { render } from 'react-dom';
@@ -10,8 +9,6 @@ import '../assets/application.scss';
 
 import init from './init.jsx';
 
-const ROLLBAR_TOKEN = 'abe8f1de81b94a739d51c14cdcf0532d';
-
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
@@ -19,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') {
 const socket = io();
 
 const rollbarInstance = new Rollbar({
-  accessToken: ROLLBAR_TOKEN,
+  accessToken: process.env.ROLLBAR_TOKEN,
   captureUncaught: true,
   captureUnhandledRejections: true,
   payload: {

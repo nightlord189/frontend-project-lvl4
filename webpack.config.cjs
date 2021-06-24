@@ -1,5 +1,5 @@
 // @ts-check
-
+const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -24,8 +24,12 @@ module.exports = {
     publicPath: '/assets/',
     historyApiFallback: true,
   },
+  // @ts-ignore
   plugins: [
     new MiniCssExtractPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.ROLLBAR_TOKEN': JSON.stringify('abe8f1de81b94a739d51c14cdcf0532d'),
+    }),
   ],
   module: {
     rules: [
