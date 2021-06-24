@@ -6,11 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { SocketContext } from '../../../context';
 import { addChannel, setCurrentChannel } from '../../../store/channels';
+import { closeModal } from '../../../store/modal';
 
-const AddChannelModal = (props) => {
+const AddChannelModal = () => {
   const { t } = useTranslation();
-
-  const { onHide } = props;
   const [name, setName] = useState('');
   const [formState, setFormState] = useState({
     state: 'editing',
@@ -48,7 +47,12 @@ const AddChannelModal = (props) => {
       if (response.status === 'ok') {
         dispatch(addChannel(response.data));
         dispatch(setCurrentChannel(response.data.id));
-        onHide();
+        setName('');
+        setFormState({
+          state: 'editing',
+          error: '',
+        });
+        dispatch(closeModal());
       } else {
         setFormState({
           state: 'editing',
@@ -59,6 +63,10 @@ const AddChannelModal = (props) => {
     });
   };
 
+  const handleHide = () => {
+    dispatch(closeModal());
+  };
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -66,7 +74,7 @@ const AddChannelModal = (props) => {
   });
 
   return (
-    <Modal show onHide={onHide} centered>
+    <Modal show onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -91,7 +99,7 @@ const AddChannelModal = (props) => {
                 type="button"
                 className="me-2"
                 variant="secondary"
-                onClick={onHide}
+                onClick={handleHide}
               >
                 {t('channels.cancel')}
               </Button>

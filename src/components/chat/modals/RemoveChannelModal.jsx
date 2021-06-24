@@ -4,16 +4,21 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../../context';
 import { removeChannel } from '../../../store/channels';
+import { closeModal } from '../../../store/modal';
 
 const RemoveChannelModal = (props) => {
   const { t } = useTranslation();
 
-  const { onHide, id } = props;
+  const { id } = props;
   const [formState, setFormState] = useState({
     state: 'editing',
   });
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
+
+  const handleHide = () => {
+    dispatch(closeModal());
+  };
 
   const handleRemove = async () => {
     if (formState.state !== 'editing') {
@@ -25,19 +30,23 @@ const RemoveChannelModal = (props) => {
     });
     socket.emit('removeChannel', { id }, () => {
       dispatch(removeChannel(id));
-      onHide();
+      setFormState({
+        state: 'editing',
+        error: '',
+      });
+      dispatch(closeModal());
     });
   };
 
   return (
-    <Modal show onHide={onHide} centered>
+    <Modal show onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <p className="lead">{t('channels.confirm')}</p>
         <div className="d-flex justify-content-end">
-          <button type="button" className="me-2 btn btn-secondary" onClick={onHide}>{t('channels.cancel')}</button>
+          <button type="button" className="me-2 btn btn-secondary" onClick={handleHide}>{t('channels.cancel')}</button>
           <button type="button" className="btn btn-danger" onClick={handleRemove}>{t('channels.delete')}</button>
         </div>
       </Modal.Body>

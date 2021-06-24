@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../../context';
 import { renameChannel } from '../../../store/channels.js';
+import { closeModal } from '../../../store/modal';
 
 const RenameChannelModal = (props) => {
+  const { channel } = props;
   const { t } = useTranslation();
 
-  const { onHide, channel } = props;
   const [name, setName] = useState(channel.name);
   const [formState, setFormState] = useState({
     state: 'editing',
@@ -50,7 +51,11 @@ const RenameChannelModal = (props) => {
           ...channel,
           name,
         }));
-        onHide();
+        setFormState({
+          state: 'editing',
+          error: '',
+        });
+        dispatch(closeModal());
       } else {
         setFormState({
           state: 'editing',
@@ -61,6 +66,10 @@ const RenameChannelModal = (props) => {
     });
   };
 
+  const handleHide = () => {
+    dispatch(closeModal());
+  };
+
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -68,7 +77,7 @@ const RenameChannelModal = (props) => {
   });
 
   return (
-    <Modal show onHide={onHide} centered>
+    <Modal show onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -93,7 +102,7 @@ const RenameChannelModal = (props) => {
                 type="button"
                 className="me-2"
                 variant="secondary"
-                onClick={onHide}
+                onClick={handleHide}
               >
                 {t('channels.cancel')}
               </Button>

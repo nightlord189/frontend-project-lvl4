@@ -7,6 +7,7 @@ import { updateChannels } from '../../store/channels.js';
 import { updateMessages } from '../../store/messages.js';
 import Channels from './Channels.jsx';
 import Messages from './Messages.jsx';
+import Modal from './modals/Modal.jsx';
 import { AuthContext } from '../../context.js';
 
 const Chat = () => {
@@ -46,6 +47,7 @@ const Chat = () => {
     <div className="row h-100 bg-white">
       <Channels />
       <Messages />
+      <Modal />
     </div>
   );
 };

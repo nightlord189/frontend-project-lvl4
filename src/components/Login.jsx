@@ -34,7 +34,6 @@ const Login = () => {
         // console.log(`login failure: ${error}, status: ${error.response.status}`);
         if (error.response.status === 401) {
           setformError('badCredentials');
-          console.log(getErrorText('badCredentials'));
         } else {
           setformError('error');
         }

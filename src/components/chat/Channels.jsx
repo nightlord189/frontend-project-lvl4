@@ -1,23 +1,16 @@
 /* eslint-disable react/jsx-one-expression-per-line */
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cn from 'classnames';
 import { Dropdown, ButtonGroup } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { setCurrentChannel } from '../../store/channels.js';
-import AddChannelModal from './modals/AddChannelModal.jsx';
-import RemoveChannelModal from './modals/RemoveChannelModal.jsx';
-import RenameChannelModal from './modals/RenameChannelModal.jsx';
+import { openModal } from '../../store/modal.js';
 
 const Channels = () => {
   const { t } = useTranslation();
 
   const { channels, currentChannelId } = useSelector((state) => state.channels);
-  const [modalState, setModalState] = useState({
-    state: 'closed',
-    type: null,
-    payload: null,
-  });
 
   const dispatch = useDispatch();
 
@@ -27,51 +20,27 @@ const Channels = () => {
   };
 
   const handleAddChannel = () => {
-    setModalState({
+    dispatch(openModal({
       state: 'opened',
       type: 'add',
       payload: null,
-    });
+    }));
   };
 
   const handleRemoveChannel = (id) => () => {
-    setModalState({
+    dispatch(openModal({
       state: 'opened',
       type: 'remove',
       payload: id,
-    });
+    }));
   };
 
   const handleRenameChannel = (channel) => () => {
-    setModalState({
+    dispatch(openModal({
       state: 'opened',
       type: 'rename',
       payload: channel,
-    });
-  };
-
-  const handleHideModal = () => {
-    setModalState({
-      state: 'closed',
-      type: null,
-      payload: null,
-    });
-  };
-
-  const renderModals = () => {
-    if (modalState.state !== 'opened') {
-      return null;
-    }
-    switch (modalState.type) {
-      case 'add':
-        return <AddChannelModal onHide={handleHideModal} />;
-      case 'remove':
-        return <RemoveChannelModal onHide={handleHideModal} id={modalState.payload} />;
-      case 'rename':
-        return <RenameChannelModal onHide={handleHideModal} channel={modalState.payload} />;
-      default:
-        return null;
-    }
+    }));
   };
 
   return (
@@ -111,7 +80,6 @@ const Channels = () => {
           );
         })}
       </ul>
-      {renderModals()}
     </div>
   );
 };
