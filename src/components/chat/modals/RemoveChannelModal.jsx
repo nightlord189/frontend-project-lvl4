@@ -6,10 +6,9 @@ import { SocketContext } from '../../../context';
 import { removeChannel } from '../../../store/channels';
 import { closeModal } from '../../../store/modal';
 
-const RemoveChannelModal = (props) => {
+const RemoveChannelModal = ({ show, id }) => {
   const { t } = useTranslation();
 
-  const { id } = props;
   const [formState, setFormState] = useState({
     state: 'editing',
   });
@@ -39,7 +38,7 @@ const RemoveChannelModal = (props) => {
   };
 
   return (
-    <Modal show onHide={handleHide} centered>
+    <Modal show={show} onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.removeChannel')}</Modal.Title>
       </Modal.Header>

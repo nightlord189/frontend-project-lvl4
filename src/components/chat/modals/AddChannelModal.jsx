@@ -8,7 +8,7 @@ import { SocketContext } from '../../../context';
 import { addChannel, setCurrentChannel } from '../../../store/channels';
 import { closeModal } from '../../../store/modal';
 
-const AddChannelModal = () => {
+const AddChannelModal = ({ show }) => {
   const { t } = useTranslation();
   const [name, setName] = useState('');
   const [formState, setFormState] = useState({
@@ -74,7 +74,7 @@ const AddChannelModal = () => {
   });
 
   return (
-    <Modal show onHide={handleHide} centered>
+    <Modal show={show} onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.addChannel')}</Modal.Title>
       </Modal.Header>

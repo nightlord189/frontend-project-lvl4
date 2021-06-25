@@ -8,15 +8,21 @@ import { SocketContext } from '../../../context';
 import { renameChannel } from '../../../store/channels.js';
 import { closeModal } from '../../../store/modal';
 
-const RenameChannelModal = (props) => {
-  const { channel } = props;
+const RenameChannelModal = ({ show, channel }) => {
   const { t } = useTranslation();
 
-  const [name, setName] = useState(channel.name);
+  const [channelName, setChannelName] = useState(channel ? channel.name : '');
+  const [inputValue, setInputValue] = useState('');
   const [formState, setFormState] = useState({
     state: 'editing',
     error: '',
   });
+
+  if (channel !== null && channelName !== channel.name) {
+    setChannelName(channel.name);
+    setInputValue(channel.name);
+  }
+
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
@@ -25,7 +31,7 @@ const RenameChannelModal = (props) => {
   const getErrorText = (key) => t(`channels.${key}`);
 
   const handleChangeName = (e) => {
-    setName(e.target.value);
+    setInputValue(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -33,7 +39,7 @@ const RenameChannelModal = (props) => {
     if (formState.state !== 'editing') {
       return;
     }
-    if (channels.filter((x) => x.name === name).length > 0) {
+    if (channels.filter((x) => x.name === inputValue).length > 0) {
       setFormState({
         state: 'editing',
         error: 'errorUnique',
@@ -45,11 +51,11 @@ const RenameChannelModal = (props) => {
       state: 'sending',
       error: '',
     });
-    socket.emit('renameChannel', { id: channel.id, name }, (response) => {
+    socket.emit('renameChannel', { id: channel.id, name: inputValue }, (response) => {
       if (response.status === 'ok') {
         dispatch(renameChannel({
           ...channel,
-          name,
+          name: inputValue,
         }));
         setFormState({
           state: 'editing',
@@ -77,7 +83,7 @@ const RenameChannelModal = (props) => {
   });
 
   return (
-    <Modal show onHide={handleHide} centered>
+    <Modal show={show} onHide={handleHide} centered>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -91,7 +97,7 @@ const RenameChannelModal = (props) => {
               name="name"
               data-testid="rename-channel"
               required
-              value={name}
+              value={inputValue}
               onChange={handleChangeName}
               ref={inputRef}
               isInvalid={formState.error !== ''}
