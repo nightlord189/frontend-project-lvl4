@@ -5,8 +5,8 @@ import RemoveChannelModal from './RemoveChannelModal.jsx';
 import RenameChannelModal from './RenameChannelModal.jsx';
 
 const Modal = () => {
-  const { modalState, type, payload } = useSelector((state) => state.modal);
-  if (modalState !== 'opened') {
+  const { isOpened, type, payload } = useSelector((state) => state.modal);
+  if (!isOpened) {
     return null;
   }
   switch (type) {
