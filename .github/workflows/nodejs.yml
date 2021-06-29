@@ -28,4 +28,6 @@ jobs:
       - name: deploy heroku
         env: 
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login 
+        run: |
+          heroku container:login
+          heroku container:release -a stormy-scrubland-60698 web 
