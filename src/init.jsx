@@ -4,18 +4,21 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { io } from 'socket.io-client';
 
-import { initReactI18next } from 'react-i18next';
+import { initReactI18next, I18nextProvider } from 'react-i18next';
 import i18n from 'i18next';
 import App from './components/App.jsx';
 import store from './store/store.js';
 import { SocketContext, RollbarContext } from './context.js';
 import { addMessage } from './store/messages.js';
 import { addChannel, removeChannel, renameChannel } from './store/channels.js';
+import AuthProvider from './components/AuthProvider.jsx';
 
 import translationRu from './locales/ru.json';
 
 const init = async (socketClient, rollbarInstance) => {
-  await i18n
+  const i18nInstance = i18n.createInstance();
+
+  await i18nInstance
     .use(initReactI18next)
     .init({
       resources: {
@@ -28,6 +31,7 @@ const init = async (socketClient, rollbarInstance) => {
         escapeValue: false,
       },
     });
+
   // console.log(socketClient);
   const socket = socketClient !== undefined ? socketClient : io();
 
@@ -46,11 +50,15 @@ const init = async (socketClient, rollbarInstance) => {
 
   return (
     <RollbarContext.Provider value={rollbarInstance}>
-      <SocketContext.Provider value={socket}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </SocketContext.Provider>
+      <I18nextProvider i18n={i18nInstance}>
+        <SocketContext.Provider value={socket}>
+          <AuthProvider>
+            <Provider store={store}>
+              <App />
+            </Provider>
+          </AuthProvider>
+        </SocketContext.Provider>
+      </I18nextProvider>
     </RollbarContext.Provider>
   );
 };

@@ -6,9 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { SocketContext } from '../../../context';
 import { addChannel, setCurrentChannel } from '../../../store/channels';
-import { closeModal } from '../../../store/modal';
 
-const AddChannelModal = ({ show }) => {
+const AddChannelModal = ({ handleHide }) => {
   const { t } = useTranslation();
   const [name, setName] = useState('');
   const [formState, setFormState] = useState({
@@ -52,7 +51,7 @@ const AddChannelModal = ({ show }) => {
           state: 'editing',
           error: '',
         });
-        dispatch(closeModal());
+        handleHide();
       } else {
         setFormState({
           state: 'editing',
@@ -63,10 +62,6 @@ const AddChannelModal = ({ show }) => {
     });
   };
 
-  const handleHide = () => {
-    dispatch(closeModal());
-  };
-
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -74,7 +69,7 @@ const AddChannelModal = ({ show }) => {
   });
 
   return (
-    <Modal show={show} onHide={handleHide} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.addChannel')}</Modal.Title>
       </Modal.Header>
@@ -108,7 +103,7 @@ const AddChannelModal = ({ show }) => {
           </Form.Group>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

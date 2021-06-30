@@ -7,12 +7,10 @@ const Navbar = () => {
   const isAuthorized = localStorage.getItem('user') !== null;
   const { t } = useTranslation();
   const history = useHistory();
-  const [, setAuth] = useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   const logout = () => {
-    localStorage.removeItem('user');
-    setAuth(null);
-    // console.log('logout');
+    auth.logout();
     history.replace('/login');
   };
 

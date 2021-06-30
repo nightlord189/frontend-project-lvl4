@@ -6,22 +6,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../../context';
 import { renameChannel } from '../../../store/channels.js';
-import { closeModal } from '../../../store/modal';
 
-const RenameChannelModal = ({ show, channel }) => {
+const RenameChannelModal = ({ handleHide, payload }) => {
   const { t } = useTranslation();
+  const channel = payload;
 
-  const [channelName, setChannelName] = useState(channel ? channel.name : '');
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(channel.name);
   const [formState, setFormState] = useState({
     state: 'editing',
     error: '',
   });
-
-  if (channel !== null && channelName !== channel.name) {
-    setChannelName(channel.name);
-    setInputValue(channel.name);
-  }
 
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
@@ -61,7 +55,7 @@ const RenameChannelModal = ({ show, channel }) => {
           state: 'editing',
           error: '',
         });
-        dispatch(closeModal());
+        handleHide();
       } else {
         setFormState({
           state: 'editing',
@@ -72,10 +66,6 @@ const RenameChannelModal = ({ show, channel }) => {
     });
   };
 
-  const handleHide = () => {
-    dispatch(closeModal());
-  };
-
   useEffect(() => {
     if (inputRef.current) {
       inputRef.current.focus();
@@ -83,7 +73,7 @@ const RenameChannelModal = ({ show, channel }) => {
   });
 
   return (
-    <Modal show={show} onHide={handleHide} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
       </Modal.Header>
@@ -117,7 +107,7 @@ const RenameChannelModal = ({ show, channel }) => {
           </Form.Group>
         </Form>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

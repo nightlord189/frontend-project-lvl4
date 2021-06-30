@@ -12,7 +12,7 @@ import { AuthContext } from '../context';
 const Login = () => {
   const { t } = useTranslation();
   const history = useHistory();
-  const [, setAuth] = useContext(AuthContext);
+  const auth = useContext(AuthContext);
 
   const getErrorText = (key) => t(`login.${key}`);
 
@@ -26,8 +26,7 @@ const Login = () => {
       // console.log(`login submit: ${JSON.stringify(values)}`);
       try {
         const response = await axios.post(routes.authPath, values);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        setAuth(JSON.stringify(response.data));
+        auth.login(response.data);
         // console.log(`login success: ${JSON.stringify(response.data)}`);
         history.push('/');
       } catch (error) {

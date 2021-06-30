@@ -4,20 +4,16 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SocketContext } from '../../../context';
 import { removeChannel } from '../../../store/channels';
-import { closeModal } from '../../../store/modal';
 
-const RemoveChannelModal = ({ show, id }) => {
+const RemoveChannelModal = ({ handleHide, payload }) => {
   const { t } = useTranslation();
+  const id = payload;
 
   const [formState, setFormState] = useState({
     state: 'editing',
   });
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
-
-  const handleHide = () => {
-    dispatch(closeModal());
-  };
 
   const handleRemove = async () => {
     if (formState.state !== 'editing') {
@@ -33,12 +29,12 @@ const RemoveChannelModal = ({ show, id }) => {
         state: 'editing',
         error: '',
       });
-      dispatch(closeModal());
+      handleHide();
     });
   };
 
   return (
-    <Modal show={show} onHide={handleHide} centered>
+    <>
       <Modal.Header closeButton>
         <Modal.Title>{t('channels.removeChannel')}</Modal.Title>
       </Modal.Header>
@@ -49,7 +45,7 @@ const RemoveChannelModal = ({ show, id }) => {
           <button type="button" className="btn btn-danger" onClick={handleRemove}>{t('channels.delete')}</button>
         </div>
       </Modal.Body>
-    </Modal>
+    </>
   );
 };
 

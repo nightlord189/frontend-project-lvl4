@@ -18,7 +18,7 @@ export const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(removeChannel, (state, action) => {
-        state.messages = state.messages.filter((x) => x.channelId !== action.payload);
+        state.messages = state.messages.filter((message) => message.channelId !== action.payload);
       });
   },
 });

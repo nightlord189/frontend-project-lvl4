@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,37 +8,33 @@ import Login from './Login.jsx';
 import Signup from './Signup.jsx';
 import NotFound from './NotFound.jsx';
 import Chat from './chat/Chat.jsx';
-import PrivateRoute from './PrivateRoute.jsx';
 import Navbar from './Navbar.jsx';
-import { AuthContext } from '../context';
+import PrivateRoute from './PrivateRoute.jsx';
+import { AuthContext } from '../context.js';
 
 const App = () => {
-  const [auth, setAuth] = useState(localStorage.getItem('user'));
-  const isAuthorized = auth !== null;
-  // console.log(`rendering app, auth: ${auth}, isAuthorized: ${isAuthorized}`);
+  const auth = useContext(AuthContext);
 
   return (
-    <AuthContext.Provider value={[auth, setAuth]}>
-      <Router>
-        <div className="d-flex flex-column h-100">
-          <Navbar />
-          <Switch>
-            <PrivateRoute exact path="/" redirect={isAuthorized} redirectPath="/login">
-              <Chat />
-            </PrivateRoute>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="*">
-              <NotFound />
-            </Route>
-          </Switch>
-        </div>
-      </Router>
-    </AuthContext.Provider>
+    <Router>
+      <div className="d-flex flex-column h-100">
+        <Navbar />
+        <Switch>
+          <PrivateRoute exact path="/" redirect={auth.getUser()} redirectPath="/login">
+            <Chat />
+          </PrivateRoute>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 };
 

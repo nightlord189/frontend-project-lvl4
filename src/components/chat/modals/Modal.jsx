@@ -1,17 +1,33 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal as BootstrapModal } from 'react-bootstrap';
 import AddChannelModal from './AddChannelModal.jsx';
 import RemoveChannelModal from './RemoveChannelModal.jsx';
 import RenameChannelModal from './RenameChannelModal.jsx';
+import { closeModal } from '../../../store/modal';
+
+const modals = {
+  add: AddChannelModal,
+  remove: RemoveChannelModal,
+  rename: RenameChannelModal,
+};
 
 const Modal = () => {
   const { isOpened, type, payload } = useSelector((state) => state.modal);
+  const dispatch = useDispatch();
+
+  const handleHide = () => {
+    dispatch(closeModal());
+  };
+
+  const CurrentModal = modals[type];
+
+  // {currentModal && <currentModal payload={[payload]} handleClose={handleClose} />}
+
   return (
-    <div>
-      <AddChannelModal show={isOpened && type === 'add'} />
-      <RenameChannelModal show={isOpened && type === 'rename'} channel={payload} />
-      <RemoveChannelModal show={isOpened && type === 'remove'} id={payload} />
-    </div>
+    <BootstrapModal show={isOpened} onHide={handleHide} centered>
+      {CurrentModal && <CurrentModal payload={payload} handleHide={handleHide} />}
+    </BootstrapModal>
   );
 };
 

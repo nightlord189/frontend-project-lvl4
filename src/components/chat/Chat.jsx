@@ -13,7 +13,7 @@ import { AuthContext } from '../../context.js';
 const Chat = () => {
   const user = localStorage.getItem('user');
   const userParsed = JSON.parse(user);
-  const [, setAuth] = useContext(AuthContext);
+  const auth = useContext(AuthContext);
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -33,8 +33,7 @@ const Chat = () => {
       dispatch(updateMessages(response.data.messages));
     } catch (error) {
       // console.log(`data failure: ${error}, status: ${error.response.status}, logout`);
-      localStorage.removeItem('user');
-      setAuth(null);
+      auth.logout();
       history.replace('/login');
     }
   };
