@@ -4,16 +4,14 @@ import React, {
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
 import { SocketContext } from '../../../context';
-import { addChannel, setCurrentChannel } from '../../../store/channels';
+import { setCurrentChannel } from '../../../store/channels';
 
 const AddChannelModal = ({ handleHide }) => {
   const { t } = useTranslation();
-  const [name, setName] = useState('');
-  const [formState, setFormState] = useState({
-    state: 'editing',
-    error: '',
-  });
+  const [formError, setFormError] = useState('');
+
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
   const inputRef = useRef(null);
@@ -21,46 +19,26 @@ const AddChannelModal = ({ handleHide }) => {
 
   const getErrorText = (key) => t(`channels.${key}`);
 
-  const handleChangeName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formState.state !== 'editing') {
-      return;
-    }
-    if (channels.filter((x) => x.name === name).length > 0) {
-      setFormState({
-        state: 'editing',
-        error: 'errorUnique',
-      });
-      return;
-    }
-    // console.log(`submit add channel ${name}`);
-    setFormState({
-      state: 'sending',
-      error: '',
-    });
-    socket.emit('newChannel', { name }, (response) => {
-      if (response.status === 'ok') {
-        dispatch(addChannel(response.data));
-        dispatch(setCurrentChannel(response.data.id));
-        setName('');
-        setFormState({
-          state: 'editing',
-          error: '',
-        });
-        handleHide();
-      } else {
-        setFormState({
-          state: 'editing',
-          error: 'errorNetwork',
-        });
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+    },
+    onSubmit: async (values) => {
+      if (channels.filter((x) => x.name === values.name).length > 0) {
+        setFormError('errorUnique');
+        return;
       }
-      // console.log(response.status); // ok
-    });
-  };
+      socket.emit('newChannel', { name: values.name }, (response) => {
+        if (response.status === 'ok') {
+          dispatch(setCurrentChannel(response.data.id));
+          handleHide();
+        } else {
+          setFormError('errorNetwork');
+        }
+        // console.log(response.status); // ok
+      });
+    },
+  });
 
   useEffect(() => {
     if (inputRef.current) {
@@ -74,7 +52,7 @@ const AddChannelModal = ({ handleHide }) => {
         <Modal.Title>{t('channels.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control
               minLength="3"
@@ -83,12 +61,12 @@ const AddChannelModal = ({ handleHide }) => {
               name="name"
               data-testid="add-channel"
               required
-              value={name}
-              onChange={handleChangeName}
+              value={formik.values.username}
+              onChange={formik.handleChange}
               ref={inputRef}
-              isInvalid={formState.error !== ''}
+              isInvalid={formError}
             />
-            <Form.Control.Feedback type="invalid">{ getErrorText(formState.error) }</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{ getErrorText(formError) }</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
                 type="button"

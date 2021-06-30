@@ -15,9 +15,6 @@ export const channelsSlice = createSlice({
       state.currentChannelId = action.payload.currentChannelId;
     },
     addChannel: (state, action) => {
-      if (state.channels.filter((x) => x.id === action.payload.id).length > 0) {
-        return;
-      }
       state.channels.push(action.payload);
     },
     removeChannel: (state, action) => {

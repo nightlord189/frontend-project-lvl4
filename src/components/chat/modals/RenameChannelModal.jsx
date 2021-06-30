@@ -4,6 +4,7 @@ import React, {
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useFormik } from 'formik';
 import { SocketContext } from '../../../context';
 import { renameChannel } from '../../../store/channels.js';
 
@@ -11,11 +12,7 @@ const RenameChannelModal = ({ handleHide, payload }) => {
   const { t } = useTranslation();
   const channel = payload;
 
-  const [inputValue, setInputValue] = useState(channel.name);
-  const [formState, setFormState] = useState({
-    state: 'editing',
-    error: '',
-  });
+  const [formError, setFormError] = useState('');
 
   const socket = useContext(SocketContext);
   const dispatch = useDispatch();
@@ -24,47 +21,29 @@ const RenameChannelModal = ({ handleHide, payload }) => {
 
   const getErrorText = (key) => t(`channels.${key}`);
 
-  const handleChangeName = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (formState.state !== 'editing') {
-      return;
-    }
-    if (channels.filter((x) => x.name === inputValue).length > 0) {
-      setFormState({
-        state: 'editing',
-        error: 'errorUnique',
-      });
-      return;
-    }
-    // console.log(`submit add channel ${name}`);
-    setFormState({
-      state: 'sending',
-      error: '',
-    });
-    socket.emit('renameChannel', { id: channel.id, name: inputValue }, (response) => {
-      if (response.status === 'ok') {
-        dispatch(renameChannel({
-          ...channel,
-          name: inputValue,
-        }));
-        setFormState({
-          state: 'editing',
-          error: '',
-        });
-        handleHide();
-      } else {
-        setFormState({
-          state: 'editing',
-          error: 'errorNetwork',
-        });
+  const formik = useFormik({
+    initialValues: {
+      name: channel.name,
+    },
+    onSubmit: async (values) => {
+      if (channels.filter((x) => x.name === values.name).length > 0) {
+        setFormError('errorUnique');
+        return;
       }
-      // console.log(response.status); // ok
-    });
-  };
+      socket.emit('renameChannel', { id: channel.id, name: values.name }, (response) => {
+        if (response.status === 'ok') {
+          dispatch(renameChannel({
+            ...channel,
+            name: values.name,
+          }));
+          handleHide();
+        } else {
+          setFormError('errorNetwork');
+        }
+        // console.log(response.status); // ok
+      });
+    },
+  });
 
   useEffect(() => {
     if (inputRef.current) {
@@ -78,7 +57,7 @@ const RenameChannelModal = ({ handleHide, payload }) => {
         <Modal.Title>{t('channels.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control
               minLength="3"
@@ -87,12 +66,12 @@ const RenameChannelModal = ({ handleHide, payload }) => {
               name="name"
               data-testid="rename-channel"
               required
-              value={inputValue}
-              onChange={handleChangeName}
+              value={formik.values.name}
+              onChange={formik.handleChange}
               ref={inputRef}
-              isInvalid={formState.error !== ''}
+              isInvalid={formError}
             />
-            <Form.Control.Feedback type="invalid">{getErrorText(formState.error)}</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">{getErrorText(formError)}</Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
                 type="button"
@@ -102,7 +81,7 @@ const RenameChannelModal = ({ handleHide, payload }) => {
               >
                 {t('channels.cancel')}
               </Button>
-              <Button type="submit">{t('channels.send')}</Button>
+              <Button type="submit" disabled={formik.isSubmitting}>{t('channels.send')}</Button>
             </div>
           </Form.Group>
         </Form>
