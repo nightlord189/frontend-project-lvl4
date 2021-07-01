@@ -4,10 +4,10 @@ import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../context';
 
 const Navbar = () => {
-  const isAuthorized = localStorage.getItem('user') !== null;
   const { t } = useTranslation();
   const history = useHistory();
   const auth = useContext(AuthContext);
+  const isAuthorized = auth.getUser() !== null;
 
   const logout = () => {
     auth.logout();

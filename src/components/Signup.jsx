@@ -41,7 +41,6 @@ const Signup = () => {
       try {
         const response = await axios.post(routes.signupPath, values);
         auth.login(response.data);
-        localStorage.setItem('user', JSON.stringify(response.data));
         // console.log(`signup success: ${JSON.stringify(response.data)}`);
         history.push('/');
       } catch (error) {

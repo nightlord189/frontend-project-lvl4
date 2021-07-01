@@ -4,11 +4,11 @@ import React, {
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import Form from 'react-bootstrap/Form';
-import { SocketContext } from '../../context.js';
+import { SocketContext, AuthContext } from '../../context.js';
 
 const MessageForm = () => {
   const { t } = useTranslation();
-
+  const auth = useContext(AuthContext);
   const [value, setValue] = useState('');
   const [inputEnabled, setInputEnabled] = useState(true);
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
@@ -19,7 +19,7 @@ const MessageForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.log('submit');
-    const { username } = JSON.parse(localStorage.getItem('user'));
+    const { username } = auth.getUser();
     const msg = {
       username,
       message: value,

@@ -11,9 +11,8 @@ import Modal from './modals/Modal.jsx';
 import { AuthContext } from '../../context.js';
 
 const Chat = () => {
-  const user = localStorage.getItem('user');
-  const userParsed = JSON.parse(user);
   const auth = useContext(AuthContext);
+  const user = auth.getUser();
   const history = useHistory();
 
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ const Chat = () => {
     try {
       const response = await axios.get(routes.getDataPath,
         {
-          headers: { Authorization: `Bearer ${userParsed.token}` },
+          headers: { Authorization: `Bearer ${user.token}` },
         });
       // console.log(response.data);
       dispatch(updateChannels({
